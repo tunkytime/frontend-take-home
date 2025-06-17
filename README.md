@@ -4,7 +4,7 @@ Welcome to the WorkOS Frontend Take-Home Assignment!
 
 In this exercise, you'll implement the UI for a simple two-tab layout that lists users and roles. You will also add limited functionality to update users and roles.
 
-You should have recieved an invitation to view a Figma design file for the take-home assignment. If you haven't received and invitation email, please reach out to us.
+You should have received an invitation to view a Figma design file for the take-home assignment. If you haven't received and invitation email, please reach out to us.
 
 To get you started, we've also provided a fully functional backend API. Keep in mind, you won’t need to implement all of the functionality implied by the design or backend API. Make sure to focus on the specific tasks outlined below.
 
