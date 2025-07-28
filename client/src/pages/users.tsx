@@ -1,42 +1,28 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { fetcher } from "../api";
-import { RolesResponse, UsersResponse, UserWithRole } from "../api/types";
 import { PageContainer } from "../components/page-container";
 import { Search } from "../components/search";
 import { UsersTable } from "../components/users-table";
 import useSWR from "swr";
-import { formatDate } from "../utils/formatDate";
+import { useUsers } from "../hooks/useUsers";
+import { useDebounce } from "use-debounce";
+import { Loader } from "../components/loader";
+import { NoResults } from "../components/no-results";
+import { useRoles } from "../hooks/useRoles";
 
 export function Users() {
   const [query, setQuery] = useState("");
-  const {
-    data: usersData,
-    error: usersError,
-    isLoading: usersLoading,
-  } = useSWR<UsersResponse, Error>(
-    `/api/users${query ? `?search=${query}` : ""}`,
-    fetcher
-  );
-  const {
-    data: rolesData,
-    error: rolesError,
-    isLoading: rolesLoding,
-  } = useSWR<RolesResponse, Error>("/api/roles", fetcher);
+  const [debouncedQuery] = useDebounce(query, 250);
+  const { users, error, isLoading } = useUsers(debouncedQuery);
+  const { roles } = useRoles();
+  const hasError = error || (!isLoading && !users);
 
-  const users = usersData?.data || [];
-  const roles = rolesData?.data || [];
-  const isLoading = usersLoading || rolesLoding;
-  const hasError = usersError || rolesError || (!isLoading && !usersData);
-
-  const usersWithRoles = useMemo(
-    () =>
-      users.map((user) => ({
-        ...user,
-        createdAt: formatDate(user.createdAt),
-        role: roles?.find((role) => role.id === user.roleId),
-      })),
-    [users, roles]
-  );
+  const usersWithRoles = useMemo(() => {
+    return users.map((user) => ({
+      ...user,
+      role: roles.find(({ id }) => id === user.roleId),
+    }));
+  }, [users, roles]);
 
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value);
@@ -44,7 +30,7 @@ export function Users() {
 
   const content = (() => {
     if (isLoading) {
-      return <>Loading...</>;
+      return <Loader />;
     }
 
     if (hasError) {
@@ -52,7 +38,7 @@ export function Users() {
     }
 
     if (usersWithRoles.length === 0) {
-      return <>No results found.</>;
+      return <NoResults />;
     }
 
     return <UsersTable users={usersWithRoles} />;
