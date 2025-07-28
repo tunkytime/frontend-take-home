@@ -7,6 +7,7 @@ import { useUserTableContext } from "@contexts/user-table-context";
 import { Button } from "@primitives/button";
 import { Table } from "@primitives/table";
 import { TableCell } from "@primitives/table/table-cell";
+import { TableLoading } from "@primitives/table/table-loading";
 import { TableRow } from "@primitives/table/table-row";
 
 import { TableError } from "../../primitives/table/table-error";
@@ -37,7 +38,7 @@ export function UserTable() {
   }
 
   if (isLoading || isValidating) {
-    return <Loader />;
+    return <TableLoading />;
   }
 
   if (hasError) {

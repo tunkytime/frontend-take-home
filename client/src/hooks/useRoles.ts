@@ -7,8 +7,14 @@ import { RolesResponse } from "../api/types";
 
 export function useRoles() {
   const { data, error, isLoading, isValidating } = useSWR<RolesResponse, Error>(
-    ["roles"],
+    "roles",
     fetchRoles,
+    {
+      keepPreviousData: true,
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+      revalidateOnMount: false,
+    },
   );
 
   async function fetchRoles() {

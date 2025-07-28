@@ -3,10 +3,16 @@ import useSWR from "swr";
 import { fetcher } from "../api";
 import { UsersResponse } from "../api/types";
 
-export function useUsers({ query, page }: { query: string; page: number }) {
+export function useUsers({ query, page }: { query: string; page: string }) {
   const { data, error, isLoading, isValidating } = useSWR<UsersResponse, Error>(
     ["users", query, page],
     fetchUsers,
+    {
+      keepPreviousData: true,
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+      revalidateOnMount: false,
+    },
   );
 
   async function fetchUsers() {
@@ -17,7 +23,7 @@ export function useUsers({ query, page }: { query: string; page: number }) {
     }
 
     if (page) {
-      params.set("page", String(page));
+      params.set("page", page);
     }
 
     return fetcher(`/api/users?${params.toString()}`);

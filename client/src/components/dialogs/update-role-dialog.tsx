@@ -28,7 +28,7 @@ export function UpdateRoleDialog({ isOpen, role, close }: Props) {
           name: roleName,
         }),
       });
-      mutate("/api/roles");
+      mutate("roles");
       close();
     } catch (error) {
       console.error("Error updating role");

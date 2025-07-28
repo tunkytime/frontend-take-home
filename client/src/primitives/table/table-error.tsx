@@ -12,7 +12,15 @@ type Props = {
 
 export function TableError({ cacheKey }: Props) {
   function handleRefresh() {
-    mutate((key) => Array.isArray(key) && key.includes(cacheKey));
+    mutate((key: string | string[]) => {
+      if (Array.isArray(key)) {
+        return key.includes(cacheKey);
+      }
+
+      if (typeof key === "string") {
+        return key === cacheKey;
+      }
+    });
   }
 
   return (

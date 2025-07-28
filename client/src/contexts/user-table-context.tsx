@@ -40,7 +40,7 @@ export function UserTableContextProvider({ children }: Props) {
   const [debouncedQuery] = useDebounce(query, 250);
   const { users, next, prev, error, isLoading, isValidating } = useUsers({
     query: debouncedQuery,
-    page,
+    page: String(page),
   });
   const { roles } = useRoles();
 

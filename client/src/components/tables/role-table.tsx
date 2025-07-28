@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import { Role } from "@api/types";
-import { Loader } from "@components/loader";
 import { NoResults } from "@components/no-results";
 import { useRoles } from "@hooks/useRoles";
 import { Table } from "@primitives/table";
 import { TableCell } from "@primitives/table/table-cell";
 import { TableError } from "@primitives/table/table-error";
+import { TableLoading } from "@primitives/table/table-loading";
 import { TableRow } from "@primitives/table/table-row";
 
 import { UpdateRoleDialog } from "../dialogs/update-role-dialog";
@@ -29,7 +29,7 @@ export function RoleTable() {
   }
 
   if (isLoading || isValidating) {
-    return <Loader />;
+    return <TableLoading />;
   }
 
   if (hasError) {

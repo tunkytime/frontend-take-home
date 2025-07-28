@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
 
 import { User } from "@api/types";
 import { useUserTableContext } from "@contexts/user-table-context";
@@ -13,6 +13,7 @@ type Props = {
 };
 
 export function DeleteUserDialog({ isOpen, user, close }: Props) {
+  const { mutate } = useSWRConfig();
   const { query, page } = useUserTableContext();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,6 +21,7 @@ export function DeleteUserDialog({ isOpen, user, close }: Props) {
     try {
       setIsLoading(true);
       await fetch(`api/users/${user.id}`, { method: "DELETE" });
+      console.log({ query, page });
       mutate(["users", query, page]);
       close();
     } catch (error) {
