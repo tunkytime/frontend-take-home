@@ -9,9 +9,9 @@ import { Table } from "@primitives/table";
 import { TableCell } from "@primitives/table/table-cell";
 import { TableRow } from "@primitives/table/table-row";
 
+import { TableError } from "../../primitives/table/table-error";
 import { DeleteUserDialog } from "../dialogs/delete-user-dialog";
 import { UserOptions } from "../user-options";
-import { TableError } from "./table-error";
 
 const tableHeaders = ["user", "role", "joined"];
 
@@ -57,6 +57,7 @@ export function UserTable() {
               <div className="flex gap-2">
                 {user?.photo && (
                   <img
+                    alt="User photo"
                     src={user.photo}
                     className="w-6 h-6 rounded-full object-cover"
                   />
@@ -73,7 +74,7 @@ export function UserTable() {
             </TableCell>
           </TableRow>
         ))}
-        <TableRow>
+        <TableRow isLastRow>
           <TableCell colSpan={4} className="text-right">
             <Button
               className="mr-2"

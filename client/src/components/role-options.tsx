@@ -9,7 +9,10 @@ type Props = {
 export function RoleOptions({ open }: Props) {
   return (
     <Popover>
-      <PopoverButton className="hover:bg-gray-a3 transition-colors rounded-full focus:bg-gray-a3 focus:outline-none">
+      <PopoverButton
+        aria-label="Role options"
+        className="hover:bg-gray-a3 transition-colors rounded-full focus:bg-gray-a3 focus:outline-none"
+      >
         <MoreHorizontal className="text-gray-a11 cursor-pointer" />
       </PopoverButton>
       <PopoverPanel

@@ -6,11 +6,11 @@ import { NoResults } from "@components/no-results";
 import { useRoles } from "@hooks/useRoles";
 import { Table } from "@primitives/table";
 import { TableCell } from "@primitives/table/table-cell";
+import { TableError } from "@primitives/table/table-error";
 import { TableRow } from "@primitives/table/table-row";
 
 import { UpdateRoleDialog } from "../dialogs/update-role-dialog";
 import { RoleOptions } from "../role-options";
-import { TableError } from "./table-error";
 
 const tableHeaders = ["name", "created", "default", "description"];
 

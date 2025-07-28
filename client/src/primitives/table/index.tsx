@@ -1,7 +1,5 @@
 import { PropsWithChildren } from "react";
 
-import { Button } from "@primitives/button";
-
 import { TableHeader } from "./table-header";
 
 type Props = PropsWithChildren<{

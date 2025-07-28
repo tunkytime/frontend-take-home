@@ -19,7 +19,7 @@ export function TableError({ cacheKey }: Props) {
     <Table headers={[]}>
       <TableRow className="h-[350px]">
         <TableCell className="text-center">
-          <p className="text-xl text-gray-12">
+          <p className="text-lg text-gray-12">
             Failed to load data, please try again.
           </p>
           <Button

@@ -11,6 +11,7 @@ import { useDebounce } from "use-debounce";
 import { UserWithRole } from "@api/types";
 import { useRoles } from "@hooks/useRoles";
 import { useUsers } from "@hooks/useUsers";
+import { formatDate } from "@utils/formatDate";
 
 type UserTableContextValue = {
   query: string;
@@ -46,6 +47,7 @@ export function UserTableContextProvider({ children }: Props) {
   const usersWithRoles = useMemo(() => {
     return users.map((user) => ({
       ...user,
+      createdAt: formatDate(user.createdAt),
       role: roles.find(({ id }) => id === user.roleId),
     }));
   }, [users, roles]);
