@@ -14,7 +14,7 @@ import { useUsers } from "@hooks/useUsers";
 
 type UserTableContextValue = {
   query: string;
-  page: number;
+  page: string;
   usersWithRoles: UserWithRole[];
   hasError: boolean;
   isLoading: boolean;
@@ -42,7 +42,6 @@ export function UserTableContextProvider({ children }: Props) {
     page,
   });
   const { roles } = useRoles();
-  const hasError = Boolean(error || (!isLoading && !users));
 
   const usersWithRoles = useMemo(() => {
     return users.map((user) => ({
@@ -50,6 +49,10 @@ export function UserTableContextProvider({ children }: Props) {
       role: roles.find(({ id }) => id === user.roleId),
     }));
   }, [users, roles]);
+
+  const hasError = Boolean(
+    error || (!isLoading && usersWithRoles.length === 0 && !query),
+  );
 
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     setQuery(e.target.value);
@@ -71,7 +74,7 @@ export function UserTableContextProvider({ children }: Props) {
     <UserTableContext.Provider
       value={{
         query,
-        page,
+        page: String(page),
         usersWithRoles,
         next,
         prev,

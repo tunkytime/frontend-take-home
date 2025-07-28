@@ -11,6 +11,7 @@ import { TableRow } from "@primitives/table/table-row";
 
 import { DeleteUserDialog } from "../dialogs/delete-user-dialog";
 import { UserOptions } from "../user-options";
+import { TableError } from "./table-error";
 
 const tableHeaders = ["user", "role", "joined"];
 
@@ -40,7 +41,7 @@ export function UserTable() {
   }
 
   if (hasError) {
-    return <>Something went wrong, please refresh the page.</>;
+    return <TableError cacheKey={"users"} />;
   }
 
   if (usersWithRoles.length === 0) {

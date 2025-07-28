@@ -1,21 +1,24 @@
 import { useState } from "react";
 
 import { Role } from "@api/types";
+import { Loader } from "@components/loader";
+import { NoResults } from "@components/no-results";
+import { useRoles } from "@hooks/useRoles";
 import { Table } from "@primitives/table";
 import { TableCell } from "@primitives/table/table-cell";
 import { TableRow } from "@primitives/table/table-row";
 
 import { UpdateRoleDialog } from "../dialogs/update-role-dialog";
 import { RoleOptions } from "../role-options";
+import { TableError } from "./table-error";
 
 const tableHeaders = ["name", "created", "default", "description"];
 
-type Props = {
-  roles: Role[];
-};
+export function RoleTable() {
+  const { roles, error, isLoading, isValidating } = useRoles();
 
-export function RoleTable({ roles }: Props) {
   const [updatingRole, setUpdatingRole] = useState<Role | undefined>(undefined);
+  const hasError = Boolean(error || (!isLoading && roles.length === 0));
 
   function openUpdatingRoleDialog(role: Role) {
     setUpdatingRole(role);
@@ -23,6 +26,18 @@ export function RoleTable({ roles }: Props) {
 
   function closeUpdatingRoleDialog() {
     setUpdatingRole(undefined);
+  }
+
+  if (isLoading || isValidating) {
+    return <Loader />;
+  }
+
+  if (hasError) {
+    return <TableError cacheKey={"roles"} />;
+  }
+
+  if (roles.length === 0) {
+    return <NoResults />;
   }
 
   return (
