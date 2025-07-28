@@ -17,10 +17,6 @@
 
 ## Potential Improvements
 
-#### Query Params
-
-Persist query params in the URL on the users and potentailly roles tab. This would enable users to reload the page and see an unchanged view.
-
 #### React Context for State Management
 
 Create context for the roles table, similar to what I created for the users table. This would enable adding more features to the roles table.
@@ -37,4 +33,3 @@ I'm using `SWR` for data fetching. This library has a lot of functionality for e
 
 - Add a fallback image on the user table when no photo exists for the user - Update the styling of the roles table
 - Add a global error handling component that shows when actions fail (e.g. deleting a user, updating a role)
-- Make search work on the users tab regardless of the current page
