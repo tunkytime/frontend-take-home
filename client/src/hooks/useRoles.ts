@@ -13,7 +13,6 @@ export function useRoles() {
       keepPreviousData: true,
       revalidateOnFocus: false,
       shouldRetryOnError: false,
-      revalidateOnMount: false,
     },
   );
 

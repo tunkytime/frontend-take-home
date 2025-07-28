@@ -11,19 +11,19 @@ export function useUsers({ query, page }: { query: string; page: string }) {
       keepPreviousData: true,
       revalidateOnFocus: false,
       shouldRetryOnError: false,
-      revalidateOnMount: false,
     },
   );
 
   async function fetchUsers() {
     const params = new URLSearchParams();
 
-    if (query) {
-      params.set("search", query);
-    }
-
     if (page) {
       params.set("page", page);
+    }
+
+    if (query) {
+      params.set("search", query);
+      params.set("page", "1");
     }
 
     return fetcher(`/api/users?${params.toString()}`);

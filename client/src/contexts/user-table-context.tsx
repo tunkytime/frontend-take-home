@@ -3,9 +3,11 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 
 import { UserWithRole } from "@api/types";
@@ -34,9 +36,11 @@ type Props = {
 };
 
 export function UserTableContextProvider({ children }: Props) {
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("search") || "");
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const [debouncedQuery] = useDebounce(query, 250);
   const { users, next, prev, error, isLoading, isValidating } = useUsers({
     query: debouncedQuery,
@@ -71,6 +75,25 @@ export function UserTableContextProvider({ children }: Props) {
       return prev - 1;
     });
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    if (page) {
+      params.set("page", String(page));
+    } else {
+      params.delete("page");
+    }
+
+    if (query) {
+      params.set("search", query);
+      params.delete("page");
+    } else {
+      params.delete("search");
+    }
+
+    navigate(`${location.pathname}?${params.toString()}`);
+  }, [query, page, searchParams]);
 
   return (
     <UserTableContext.Provider
