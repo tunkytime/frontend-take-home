@@ -1,43 +1,32 @@
+import { useState } from "react";
+import { mutate } from "swr";
+
+import { User } from "@api/types";
+import { useUserTableContext } from "@contexts/user-table-context";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { mutate, useSWRConfig } from "swr";
-import { Role, User } from "../api/types";
-import { Button } from "../primitives/button";
-import { ChangeEvent, useState } from "react";
-import { Input } from "../primitives/input";
+import { Button } from "@primitives/button";
 
 type Props = {
   isOpen: boolean;
-  role: Role;
+  user: User;
   close: () => void;
 };
 
-export function UpdateRoleDialog({ isOpen, role, close }: Props) {
-  const [roleName, setRoleName] = useState("");
+export function DeleteUserDialog({ isOpen, user, close }: Props) {
+  const { query, page } = useUserTableContext();
   const [isLoading, setIsLoading] = useState(false);
 
-  async function updateRole() {
+  async function deleteUser() {
     try {
       setIsLoading(true);
-      await fetch(`/api/roles/${role.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: roleName,
-        }),
-      });
-      mutate("/api/roles");
+      await fetch(`api/users/${user.id}`, { method: "DELETE" });
+      mutate(["users", query, page]);
       close();
     } catch (error) {
-      console.error("Error updating role");
+      console.error("Error deleting user");
     } finally {
       setIsLoading(false);
     }
-  }
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setRoleName(e.target.value);
   }
 
   return (
@@ -49,25 +38,25 @@ export function UpdateRoleDialog({ isOpen, role, close }: Props) {
             className="w-[520px] max-h-[690px] bg-white p-6 border-gray-a3 flex gap-4 flex-col rounded-xl duration-300 ease-out data-closed:opacity-0"
           >
             <DialogTitle className="text-xl font-medium text-gray-12">
-              Update role
+              Delete user
             </DialogTitle>
             <p>
-              Current name: <strong>{role.name}</strong>
-            </p>
-            <p>
-              New name:
-              <Input
-                placeholder="Role name"
-                value={roleName}
-                onChange={handleChange}
-              />
+              Are you sure? The user{" "}
+              <strong>
+                {user.first} {user.last}
+              </strong>{" "}
+              will be permanantely deleted.
             </p>
             <div className="flex gap-4 justify-end">
               <Button variant="secondary" onClick={close} disabled={isLoading}>
                 Cancel
               </Button>
-              <Button onClick={updateRole} disabled={isLoading}>
-                Save
+              <Button
+                variant="danger"
+                onClick={deleteUser}
+                disabled={isLoading}
+              >
+                Delete user
               </Button>
             </div>
           </DialogPanel>

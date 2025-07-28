@@ -1,5 +1,6 @@
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { MoreHorizontal } from "react-feather";
+
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 type Props = {
   open: () => void;

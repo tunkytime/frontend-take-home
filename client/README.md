@@ -1,1 +1,2 @@
-Update this
+- Add query params to URL
+- Update theme colors

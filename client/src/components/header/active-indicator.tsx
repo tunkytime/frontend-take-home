@@ -1,4 +1,4 @@
-import { cn } from "../../utils/cn";
+import { cn } from "@utils/cn";
 
 type Props = {
   isUsersActive: boolean;
@@ -9,9 +9,9 @@ export function ActiveIndicator({ isUsersActive, isRolesActive }: Props) {
   return (
     <div
       className={cn(
-        `absolute h-[2px] bottom-0 w-[72px] bg-purple-indicator transition-transform`,
+        `absolute h-[2px] bottom-0 w-[72px] bg-primary transition-transform`,
         isUsersActive && "translate-x-0",
-        isRolesActive && `translate-x-[72px]`
+        isRolesActive && `translate-x-[72px]`,
       )}
     />
   );

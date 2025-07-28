@@ -30,3 +30,5 @@ export type RolesResponse = {
   pages: number | null;
   prev: number | null;
 };
+
+export type UserWithRole = User & { role?: Role };

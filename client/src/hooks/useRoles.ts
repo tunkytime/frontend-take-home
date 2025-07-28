@@ -1,11 +1,12 @@
 import useSWR from "swr";
-import { RolesResponse } from "../api/types";
+
 import { fetcher } from "../api";
+import { RolesResponse } from "../api/types";
 
 export function useRoles() {
   const { data, error, isLoading } = useSWR<RolesResponse, Error>(
     "/api/roles",
-    fetcher
+    fetcher,
   );
 
   return {

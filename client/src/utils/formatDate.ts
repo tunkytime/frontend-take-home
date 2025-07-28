@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+
 import { DATE_FORMAT } from "../constants";
 
 export function formatDate(date: string | Date) {

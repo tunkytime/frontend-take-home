@@ -1,7 +1,8 @@
-import { routes } from "../../routes";
-import { useIsRouteActive } from "../../hooks/useIsRouteActive";
-import { HeaderItem } from "./header-item";
+import { useIsRouteActive } from "@hooks/useIsRouteActive";
+import { routes } from "@routes";
+
 import { ActiveIndicator } from "./active-indicator";
+import { HeaderItem } from "./header-item";
 
 export function Header() {
   const { isRouteActive } = useIsRouteActive();
