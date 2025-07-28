@@ -20,6 +20,9 @@ export function UpdateRoleDialog({ isOpen, role, close }: Props) {
       setIsLoading(true);
       await fetch(`/api/roles/${role.id}`, {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name: roleName,
         }),
